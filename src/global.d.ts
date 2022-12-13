@@ -1,7 +1,7 @@
-import fastify from 'fastify'
+import fastify from "fastify";
 
 declare module "fastify" {
   export interface FastifyRequest {
-    user: { id: number, email: string, name: string };
+    user: { id: number; email: string; name: string };
   }
 }

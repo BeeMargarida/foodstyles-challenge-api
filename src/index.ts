@@ -1,11 +1,7 @@
 import fastify from "fastify";
 import cors from "@fastify/cors";
 import { PrismaClient } from "@prisma/client";
-import {
-  checkPassword,
-  generateAccessToken,
-  hashPassword
-} from "./utils";
+import { checkPassword, generateAccessToken, hashPassword } from "./utils";
 import { validateRequest } from "./middleware";
 
 const prisma = new PrismaClient();
@@ -84,7 +80,7 @@ app.register(async function plugin(publicPlugin) {
 
 app.register(async function plugin(privatePlugin) {
   privatePlugin.decorateRequest("user", null);
-  privatePlugin.addHook('preHandler', validateRequest);
+  privatePlugin.addHook("preHandler", validateRequest);
 
   privatePlugin.get<{ Querystring: ListTodosQuery }>(
     "/todos",
@@ -93,14 +89,14 @@ app.register(async function plugin(privatePlugin) {
       const { user } = req;
 
       const where: Record<string, any> = {
-        userId: user.id
+        userId: user.id,
       };
       if (completed !== undefined) {
         where.completed = completed === "true";
       }
       return await prisma.todo.findMany({
         where,
-        include: { user: true }
+        include: { user: true },
       });
     }
   );
@@ -127,7 +123,7 @@ app.register(async function plugin(privatePlugin) {
       return await prisma.todo.update({
         where: {
           id: Number(id),
-          userId: user.id
+          userId: user.id,
         },
         include: { user: true },
         data: { completed: true },
