@@ -6,8 +6,8 @@ const prisma = new PrismaClient();
 const app = fastify();
 app.register(cors, {})
 
-interface ListTodosParams {
-    completed?: boolean;
+interface ListTodosQuery {
+    completed?: string;
 }
 
 interface CreateTodoBody {
@@ -23,12 +23,11 @@ interface DeleteTodoParams {
     id: number;
 }
 
-app.get<{ Params: ListTodosParams }>("/todos", async (req, res) => {
-  const { completed } = req.params;
-  console.log("here");
+app.get<{ Querystring: ListTodosQuery }>("/todos", async (req, res) => {
+  const { completed } = req.query;  
   
   return await prisma.todo.findMany({
-    where: completed !== null ? { completed: completed } : {}
+    where: completed !== undefined ? { completed: completed === 'true' } : {}
   });
 });
 
@@ -55,18 +54,19 @@ app.put<{ Params: UpdateTodoParams }>("/todos/:id/complete", async (req, res) =>
 
 app.put<{ Params: UpdateTodoParams }>("/todos/:id/incomplete", async (req, res) => {
   const { id } = req.params;
-  const todo = await prisma.todo.delete({
+  const todo = await prisma.todo.update({
     where: { id: Number(id) },
+    data: { completed: false },
   });
   return todo;
 });
 
 app.delete<{ Params: DeleteTodoParams }>("/todos/:id", async (req, res) => {
   const { id } = req.params;
-  const todo = await prisma.todo.delete({
+  await prisma.todo.delete({
     where: { id: Number(id) }
   });
-  return todo;
+  return;
 });
 
 app.listen({ port: 3001 }, (err) => {

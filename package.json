@@ -9,7 +9,9 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "watch": "tsc -w -p tsconfig.json",
-    "start": "node index.js"
+    "start": "node ./build/index.js",
+    "dev": "ts-node index.ts",
+    "seed": "ts-node prisma/seed.ts"
   },
   "devDependencies": {
     "@types/node": "^18.11.14",
