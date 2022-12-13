@@ -6,7 +6,7 @@ async function main() {
     update: {},
     create: {
       email: "test@test.com",
-      name: "Test"
+      name: "Test",
     },
   });
   console.log(alice);
