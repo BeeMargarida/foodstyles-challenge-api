@@ -1,8 +1,6 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["extendedWhereUnique"]
 }
 
 datasource db {
@@ -11,10 +9,11 @@ datasource db {
 }
 
 model User {
-  id    Int    @id @default(autoincrement())
-  email String @unique
-  name  String
-  todos Todo[]
+  id       Int    @id @default(autoincrement())
+  email    String @unique
+  name     String
+  password String
+  todos    Todo[]
 }
 
 model Todo {
