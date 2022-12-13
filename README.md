@@ -9,6 +9,7 @@ Uses:
 
 ## Usage
 
+* Run `npm install`
 * Run `npx prisma migrate dev --name init` to initialize the DB
 * Run `npm run build`
 * Run `npm run start`
