@@ -33,40 +33,36 @@ app.get<{ Querystring: ListTodosQuery }>("/todos", async (req, res) => {
 
 app.post<{ Body: CreateTodoBody }>("/todos", async (req, res) => {
   const { text, userEmail } = req.body;
-  const post = await prisma.todo.create({
+  return await prisma.todo.create({
     data: {
       text,
       completed: false,
       user: { connect: { email: userEmail } },
     },
   });
-  return post;
 });
 
 app.put<{ Params: UpdateTodoParams }>("/todos/:id/complete", async (req, res) => {
   const { id } = req.params;
-  const todo = await prisma.todo.update({
+  return await prisma.todo.update({
     where: { id: Number(id) },
     data: { completed: true },
   });
-  return todo;
 });
 
 app.put<{ Params: UpdateTodoParams }>("/todos/:id/incomplete", async (req, res) => {
   const { id } = req.params;
-  const todo = await prisma.todo.update({
+  return await prisma.todo.update({
     where: { id: Number(id) },
     data: { completed: false },
   });
-  return todo;
 });
 
 app.delete<{ Params: DeleteTodoParams }>("/todos/:id", async (req, res) => {
   const { id } = req.params;
-  await prisma.todo.delete({
+  return await prisma.todo.delete({
     where: { id: Number(id) }
   });
-  return;
 });
 
 app.listen({ port: 3001 }, (err) => {
