@@ -19,7 +19,11 @@ export const checkPassword = (password: string, hashedPassword: string) => {
   );
 };
 
-export const generateAccessToken = (data: Record<string, unknown>) => {
+export const generateAccessToken = (data: {
+  id: number;
+  name: string;
+  email: string;
+}) => {
   return new Promise<string | undefined>((resolve, reject) =>
     jwt.sign(data, JWT_SECRET, (err, token) => {
       if (err) reject(err);
